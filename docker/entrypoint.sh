@@ -70,17 +70,35 @@ git_auto_push() {
     fi
 }
 
-# 执行 trendradar 并在成功后进行 git 推送
-run_trendradar_with_git() {
+# 延迟执行话题分析脚本
+schedule_topic_analysis() {
+    local script_path="/app/tools/run_topic_analysis.sh"
+    if [ ! -f "$script_path" ]; then
+        echo "⚠️ 话题分析脚本不存在: $script_path"
+        return 0
+    fi
+
+    echo "⏳ 将在1分钟后执行话题分析脚本..."
+    (
+        sleep 60
+        echo "🔬 开始执行话题分析脚本..."
+        bash "$script_path"
+        echo "✅ 话题分析脚本执行完成"
+    ) &
+}
+
+# 执行 trendradar 并在成功后进行 git 推送和话题分析
+run_trendradar_with_hook() {
     /usr/local/bin/python -m trendradar
     git_auto_push
+    schedule_topic_analysis
 }
 
 case "${RUN_MODE:-cron}" in
 "once")
     echo "🔄 单次执行"
     # exec /usr/local/bin/python -m trendradar
-    run_trendradar_with_git
+    run_trendradar_with_hook
     ;;
 "cron")
     # 生成 crontab（包含 git 推送）
@@ -102,7 +120,7 @@ case "${RUN_MODE:-cron}" in
     if [ "${IMMEDIATE_RUN:-false}" = "true" ]; then
         echo "▶️ 立即执行一次"
         # /usr/local/bin/python -m trendradar
-        run_trendradar_with_git
+        run_trendradar_with_hook
     fi
 
     # 启动 Web 服务器（如果配置了）

@@ -8,7 +8,7 @@ ENV SUPERCRONIC_VERSION=v0.2.39
 
 RUN set -ex && \
     apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates git openssh-client && \
+    apt-get install -y --no-install-recommends curl jq ca-certificates git openssh-client && \
     case ${TARGETARCH} in \
     amd64) \
     export SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/supercronic-linux-amd64; \
@@ -46,7 +46,7 @@ RUN set -ex && \
     mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" && \
     ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic && \
     supercronic -version && \
-    apt-get remove -y curl && \
+    # apt-get remove -y curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
