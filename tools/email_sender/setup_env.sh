@@ -1,4 +1,4 @@
-echo "setup env for email_sender"
+echo "========== setup env for email_sender start =========="
 
 export SMTP_SERVER="smtp.163.com"
 export SMTP_PORT=465
@@ -11,4 +11,4 @@ echo "SMTP_USE_SSL: $SMTP_USE_SSL"
 echo "SMTP_SENDER_EMAIL: $SMTP_SENDER_EMAIL"
 echo "SMTP_SENDER_AUTH_CODE: $SMTP_SENDER_AUTH_CODE"
 
-echo "setup env for email_sender completed"
+echo "========== setup env for email_sender completed =========="
