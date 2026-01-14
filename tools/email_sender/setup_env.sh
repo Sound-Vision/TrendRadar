@@ -1,3 +1,5 @@
+echo "setup env for email_sender"
+
 export SMTP_SERVER="smtp.163.com"
 export SMTP_PORT=465
 export SMTP_USE_SSL=true
@@ -8,3 +10,5 @@ echo "SMTP_PORT: $SMTP_PORT"
 echo "SMTP_USE_SSL: $SMTP_USE_SSL"
 echo "SMTP_SENDER_EMAIL: $SMTP_SENDER_EMAIL"
 echo "SMTP_SENDER_PASSWORD: $SMTP_SENDER_PASSWORD"
+
+echo "setup env for email_sender completed"
