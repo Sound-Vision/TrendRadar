@@ -56,7 +56,7 @@ git_auto_push() {
 
     echo "📤 正在提交 output 目录到 Git..."
     git add output/
-    git commit -m "$COMMIT_MSG" || {
+    git commit -m "$COMMIT_MSG" -- output/ || {
         echo "⚠️ Git 提交失败（可能没有更改）"
         return 0
     }
