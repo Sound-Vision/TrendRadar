@@ -14,6 +14,7 @@ services:
       - ../output:/app/output
       # Git 自动推送功能（取消注释以启用）
       - ../.git:/app/.git
+      - ../.gitignore:/app/.gitignore:ro
       - ~/.ssh:/root/.ssh:ro
 
     environment:
