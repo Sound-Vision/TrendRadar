@@ -65,13 +65,17 @@ echo ""
 
 # 创建 Agent
 echo "正在创建 Agent..."
+
+# 转义 PROMPT_TEXT 中的特殊字符（反斜杠和双引号），以便安全嵌入 JSON
+ESCAPED_PROMPT=$(printf '%s' "$PROMPT_TEXT" | sed 's/\\/\\\\/g; s/"/\\"/g')
+
 CREATE_RESPONSE=$(curl --request POST \
   --url "${API_BASE_URL}/v0/agents" \
   -u "${API_KEY}:" \
   --header 'Content-Type: application/json' \
   --data "{
     \"prompt\": {
-      \"text\": \"${PROMPT_TEXT}\"
+      \"text\": \"${ESCAPED_PROMPT}\"
     },
     \"source\": {
       \"repository\": \"${REPO_URL}\",

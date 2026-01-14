@@ -36,7 +36,7 @@ export SMTP_SERVER="smtp.gmail.com"
 export SMTP_PORT=465
 export SMTP_USE_SSL=true
 export SMTP_SENDER_EMAIL="your-email@gmail.com"
-export SMTP_SENDER_PASSWORD="your-app-password"
+export SMTP_SENDER_AUTH_CODE="your-app-password"
 
 # 直接运行，无需 config.json
 python send_email.py \
@@ -128,7 +128,7 @@ cp config.json.example config.json
 ```bash
 docker run --rm \
   -e SMTP_SENDER_EMAIL="your-email@gmail.com" \
-  -e SMTP_SENDER_PASSWORD="your-app-password" \
+  -e SMTP_SENDER_AUTH_CODE="your-app-password" \
   -v $(pwd)/config.json:/app/config.json:ro \
   -v $(pwd)/data:/app/data:ro \
   email-sender \
@@ -152,7 +152,7 @@ services:
     build: .
     environment:
       - SMTP_SENDER_EMAIL=${SMTP_SENDER_EMAIL}
-      - SMTP_SENDER_PASSWORD=${SMTP_SENDER_PASSWORD}
+      - SMTP_SENDER_AUTH_CODE=${SMTP_SENDER_AUTH_CODE}
     volumes:
       - ./config.json:/app/config.json:ro
       - ./data:/app/data:ro
@@ -167,7 +167,7 @@ services:
 
 ```env
 SMTP_SENDER_EMAIL=your-email@gmail.com
-SMTP_SENDER_PASSWORD=your-app-password
+SMTP_SENDER_AUTH_CODE=your-app-password
 ```
 
 #### 3. 运行
@@ -267,7 +267,7 @@ python send_email.py \
 | `SMTP_USE_SSL` | use_ssl | `export SMTP_USE_SSL=true` |
 | `SMTP_USE_TLS` | use_tls | `export SMTP_USE_TLS=false` |
 | `SMTP_SENDER_EMAIL` | sender_email | `export SMTP_SENDER_EMAIL=me@gmail.com` |
-| `SMTP_SENDER_PASSWORD` | sender_password | `export SMTP_SENDER_PASSWORD=password` |
+| `SMTP_SENDER_AUTH_CODE` | sender_password | `export SMTP_SENDER_AUTH_CODE=password` |
 
 ### 推荐方式
 

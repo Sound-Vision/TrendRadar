@@ -53,8 +53,8 @@ class EmailSender:
         # 从环境变量读取认证信息（优先级高于配置文件）
         if os.getenv('SMTP_SENDER_EMAIL'):
             config['sender_email'] = os.getenv('SMTP_SENDER_EMAIL')
-        if os.getenv('SMTP_SENDER_PASSWORD'):
-            config['sender_password'] = os.getenv('SMTP_SENDER_PASSWORD')
+        if os.getenv('SMTP_SENDER_AUTH_CODE'):
+            config['sender_password'] = os.getenv('SMTP_SENDER_AUTH_CODE')
         
         # 验证必需的配置项
         required_fields = ['smtp_server', 'smtp_port', 'sender_email', 'sender_password']
@@ -65,7 +65,7 @@ class EmailSender:
                 f"缺少必需的配置: {', '.join(missing_fields)}\n"
                 f"请通过以下方式之一提供:\n"
                 f"  1. 配置文件 (config.json)\n"
-                f"  2. 环境变量 (SMTP_SERVER, SMTP_PORT, SMTP_SENDER_EMAIL, SMTP_SENDER_PASSWORD)\n"
+                f"  2. 环境变量 (SMTP_SERVER, SMTP_PORT, SMTP_SENDER_EMAIL, SMTP_SENDER_AUTH_CODE)\n"
                 f"  3. 命令行参数 (--smtp-server, --smtp-port, --sender-email, --sender-password)"
             )
         
@@ -278,7 +278,7 @@ def main():
     
     parser = argparse.ArgumentParser(
         description='邮件发送脚本',
-        epilog='提示: 可以使用环境变量 SMTP_SENDER_EMAIL 和 SMTP_SENDER_PASSWORD 代替配置文件中的敏感信息'
+        epilog='提示: 可以使用环境变量 SMTP_SENDER_EMAIL 和 SMTP_SENDER_AUTH_CODE 代替配置文件中的敏感信息'
     )
     parser.add_argument('-c', '--config', default='config.json',
                         help='配置文件路径 (默认: config.json)')
@@ -336,7 +336,7 @@ def main():
         if args.sender_email:
             os.environ['SMTP_SENDER_EMAIL'] = args.sender_email
         if args.sender_password:
-            os.environ['SMTP_SENDER_PASSWORD'] = args.sender_password
+            os.environ['SMTP_SENDER_AUTH_CODE'] = args.sender_password
         
         sender = EmailSender(args.config)
         success = sender.send_email(
