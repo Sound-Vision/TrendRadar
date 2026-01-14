@@ -12,6 +12,9 @@ services:
     volumes:
       - ../config:/app/config:ro
       - ../output:/app/output
+      # Git 自动推送功能（取消注释以启用）
+      - ../.git:/app/.git
+      - ~/.ssh:/root/.ssh:ro
 
     environment:
       - TZ=Asia/Shanghai
@@ -63,6 +66,11 @@ services:
       - CRON_SCHEDULE=${CRON_SCHEDULE:-*/30 * * * *}
       - RUN_MODE=${RUN_MODE:-cron}
       - IMMEDIATE_RUN=${IMMEDIATE_RUN:-true}
+      # Git 自动推送配置
+      - GIT_AUTO_PUSH=${GIT_AUTO_PUSH:-true}
+      - GIT_USER_NAME=${GIT_USER_NAME:-chenliang}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-chenliang535649@163.com}
+      - GIT_COMMIT_PREFIX=${GIT_COMMIT_PREFIX:-TrendRadar Update}
 
   trendradar-mcp:
     build:
