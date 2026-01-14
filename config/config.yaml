@@ -153,7 +153,7 @@ report:
 # • 邮箱已支持多收件人（逗号分隔）
 # ===============================================================
 notification:
-  enabled: true                       # 是否启用通知功能
+  enabled: false                       # 是否启用通知功能
 
   # 🕐 推送时间窗口控制（可选功能）
   # 用途：限制推送的时间范围，避免非工作时间打扰
@@ -235,7 +235,7 @@ storage:
   formats:
     sqlite: true                      # 主存储（必须启用）
     txt: true                        # 是否生成 TXT 快照
-    html: true                       # 是否生成 HTML 报告（⚠️ 邮件推送必须设为 true）
+    html: false                       # 是否生成 HTML 报告（⚠️ 邮件推送必须设为 true）
 
   # 本地存储配置
   local:
@@ -271,7 +271,7 @@ storage:
 # 支持 OpenAI、Anthropic、DeepSeek等兼容接口
 # ===============================================================
 ai_analysis:
-  enabled: true                    # 是否启用 AI 分析
+  enabled: false                    # 是否启用 AI 分析
 
   # AI 提供商配置
   # 支持的提供商:
