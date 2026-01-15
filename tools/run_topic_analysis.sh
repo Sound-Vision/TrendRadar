@@ -51,6 +51,7 @@ REPO_URL="https://github.com/Sound-Vision/TrendRadar"
 SOURCE_BRANCH="feature/topic_collection"
 TARGET_BRANCH="feature/topic_collection"
 PROMPT_TEXT="/collect_tech_topic"
+PROMPT_TEXT="${PROMPT_TEXT} \n\n 完成任务之后不要创建任何分支或提交任何内容"
 AGENT_NAME="Event Pipeline Agent - $(date +%Y%m%d_%H%M%S)"
 
 echo "=========================================="
