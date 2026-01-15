@@ -193,6 +193,45 @@ docker-compose up
 
 \* `-f` 和 `-m` 必须提供其中之一
 
+### 文件路径支持
+
+`--file` 和 `--attachments` 参数支持以下几种路径格式：
+
+| 路径类型 | 说明 | 示例 |
+|---------|------|------|
+| **相对路径** | 相对于脚本运行目录 | `--file ./data/report.md`<br>`--file data/report.md` |
+| **绝对路径** | 完整的文件系统路径 | `--file /home/user/docs/report.md`<br>`--file C:\Users\docs\report.md` (Windows) |
+| **用户主目录** | 使用 `~` 表示主目录（shell 自动展开） | `--file ~/Documents/report.md` |
+
+**示例**：
+
+```bash
+# 使用相对路径
+python send_email.py --to user@example.com --subject "报告" \
+  --file ./reports/daily.md
+
+# 使用绝对路径
+python send_email.py --to user@example.com --subject "报告" \
+  --file /Users/username/Desktop/report.md \
+  --attachments /path/to/file1.pdf /path/to/file2.xlsx
+
+# 使用主目录路径
+python send_email.py --to user@example.com --subject "报告" \
+  --file ~/Documents/reports/monthly.md
+
+# Docker 中使用挂载的绝对路径
+docker run --rm \
+  -v /host/path/reports:/app/reports:ro \
+  email-sender \
+  python send_email.py --to user@example.com --subject "报告" \
+  --file /app/reports/daily.md
+```
+
+**注意事项**：
+- 在 Docker 容器中使用绝对路径时，请确保路径对应容器内的文件系统（需要通过 `-v` 挂载）
+- 使用 `~` 路径时，shell 会自动展开为实际的主目录路径
+- 如果文件不存在，脚本会给出明确的错误提示
+
 ### SMTP 配置参数
 
 | 参数 | 说明 | 示例 |
