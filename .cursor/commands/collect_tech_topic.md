@@ -103,8 +103,8 @@
 | **官方/权威源** | 提高可信度 | 公司官网公告/博客、监管机构公告、开源项目 Release Notes、主流安全厂商通告、GitHub/Apache/基金会公告 |
 
 **抓取要求**
-- 优先使用 trend-radar 收集和分析热点话题
-- 通过 trend-radar 收集的热点话题的数量不足时，再使用 web 搜索
+- 优先使用 TrendRadar 收集的热点话题作为素材，素材存放在项目根目录下的 output/txt 目录中
+- 通过 TrendRadar 收集的热点话题的数量不足时，再使用 web 搜索
 - 最多收集 **50 个候选条目**
 - 每条记录：标题 + 链接 + 时间 + 平台信号（热榜排名/点赞评论量等）
 - 保留每个平台的"原始表述"，用于后续去重与归一
@@ -165,10 +165,20 @@
 
 ### 步骤 8：推送话题清单
 
-- 使用 mail-mcp 发送邮件
-  - 目标邮箱：chenliang535649@163.com、nipuream@163.com
+- 使用 tools/email_sender/send_email.py 发送邮件
+  - 目标邮箱：chenliang535649@163.com
   - 主题：采用“日期+互联网行业热点话题”的结构，例如：20251231_互联网行业热点话题
   - 正文内容：采用步骤 7 生成的话题清单文件的内容
+  - 具体使用方法参考以下示例，更详细的用法参考 tools/email_sender/README.md
+```
+// 通过环境变量配置必要参数
+sh tools/email_sender/setup_env.sh
+// 调用命令发送邮件
+python3 tools/email_sender/send_email.py \
+  --to recipient@example.com \
+  --subject "测试" \
+  --file "topics/20251223_tech_hot_topics.md"
+```
 
 ---
 
