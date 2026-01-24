@@ -91,7 +91,7 @@ schedule_topic_analysis() {
 run_trendradar_with_hook() {
     /usr/local/bin/python -m trendradar
     git_auto_push
-    schedule_topic_analysis
+    # schedule_topic_analysis
 }
 
 case "${RUN_MODE:-cron}" in
