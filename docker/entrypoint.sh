@@ -71,7 +71,7 @@ git_auto_push() {
 }
 
 # 延迟执行话题分析脚本
-schedule_topic_analysis() {
+schedule_topic_analysis_with_cursor_cloud_agent() {
     local script_path="/app/tools/run_topic_analysis.sh"
     if [ ! -f "$script_path" ]; then
         echo "⚠️ 话题分析脚本不存在: $script_path"
@@ -90,8 +90,8 @@ schedule_topic_analysis() {
 # 执行 trendradar 并在成功后进行 git 推送和话题分析
 run_trendradar_with_hook() {
     /usr/local/bin/python -m trendradar
-    git_auto_push
-    # schedule_topic_analysis
+    # git_auto_push
+    # schedule_topic_analysis_with_cursor_cloud_agent
 }
 
 case "${RUN_MODE:-cron}" in
@@ -101,12 +101,8 @@ case "${RUN_MODE:-cron}" in
     run_trendradar_with_hook
     ;;
 "cron")
-    # 生成 crontab（包含 git 推送）
-    if [ "${GIT_AUTO_PUSH:-false}" = "true" ]; then
-        echo "${CRON_SCHEDULE:-*/30 * * * *} cd /app && /usr/local/bin/python -m trendradar && /entrypoint.sh git_push_only" > /tmp/crontab
-    else
-        echo "${CRON_SCHEDULE:-*/30 * * * *} cd /app && /usr/local/bin/python -m trendradar" > /tmp/crontab
-    fi
+    # 生成 crontab
+    echo "${CRON_SCHEDULE:-*/30 * * * *} cd /app && /usr/local/bin/python -m trendradar" > /tmp/crontab
     
     echo "📅 生成的crontab内容:"
     cat /tmp/crontab
