@@ -1,7 +1,5 @@
 # 收集互联网/科技行业热点话题
 
-> 使用 RASCEF 框架优化
-
 ---
 
 ## Role（角色）
@@ -103,8 +101,8 @@
 | **官方/权威源** | 提高可信度 | 公司官网公告/博客、监管机构公告、开源项目 Release Notes、主流安全厂商通告、GitHub/Apache/基金会公告 |
 
 **抓取要求**
-- 优先使用 TrendRadar 收集的热点话题作为素材，素材存放在项目根目录下的 output/txt 目录中
-- 通过 TrendRadar 收集的热点话题的数量不足时，再使用 web 搜索
+- 优先使用 TrendRadar 收集的热点话题作为素材，素材存放在项目根目录下的 output/txt 目录中，也可以通过 trendradar mcp 工具来收集热点话题
+- 上一步收集的热点话题的数量不足时，再使用 web 搜索作为最终的兜底手段
 - 最多收集 **50 个候选条目**
 - 每条记录：标题 + 链接 + 时间 + 平台信号（热榜排名/点赞评论量等）
 - 保留每个平台的"原始表述"，用于后续去重与归一
@@ -167,7 +165,7 @@
 
 - 使用 tools/email_sender/send_email.py 发送邮件
   - 目标邮箱：chenliang535649@163.com、nipuream@163.com
-  - 主题：采用“日期+互联网行业热点话题”的结构，例如：20251231_互联网行业热点话题
+  - 主题：采用"日期+互联网行业热点话题"的结构，例如：20251231_互联网行业热点话题
   - 正文内容：采用步骤 7 生成的话题清单文件的内容
   - 具体使用方法参考以下示例，更详细的用法参考 tools/email_sender/README.md
 ```
@@ -180,6 +178,49 @@ python3 tools/email_sender/send_email.py \
   --subject "测试" \
   --file "topics/20251223_tech_hot_topics.md"
 ```
+
+### 步骤 9：清理过期数据
+
+**目标**
+- 删除超过 7 天的过期数据文件，保持数据目录整洁
+
+**清理范围**
+
+| 目录 | 文件类型 | 命名格式 |
+|------|----------|----------|
+| `topics/` | 话题文件 | `YYYYMMDD_tech_hot_topics.md` |
+| `output/news/` | 新闻数据库 | `YYYY-MM-DD.db` |
+| `output/rss/` | RSS 数据库 | `YYYY-MM-DD.db` |
+| `output/txt/` | 文本快照 | `YYYY-MM-DD/` 目录 |
+| `output/YYYY-MM-DD/` | 日期目录 | `YYYY-MM-DD/` 目录 |
+
+**清理规则**
+- 根据文件名或目录名中的日期判断是否过期
+- 删除所有日期早于当前日期 7 天的文件/目录
+- 示例：若当前日期为 2025-12-30，则删除 2025-12-22 及更早的数据
+
+**执行命令**
+```bash
+# 删除 topics/ 目录下超过 7 天的话题文件
+find topics/ -name "*_tech_hot_topics.md" -type f -mtime +7 -delete
+
+# 删除 output/news/ 目录下超过 7 天的数据库文件
+find output/news/ -name "*.db" -type f -mtime +7 -delete
+
+# 删除 output/rss/ 目录下超过 7 天的数据库文件
+find output/rss/ -name "*.db" -type f -mtime +7 -delete
+
+# 删除 output/txt/ 目录下超过 7 天的日期子目录
+find output/txt/ -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} \;
+
+# 删除 output/ 目录下超过 7 天的日期子目录（格式：YYYY-MM-DD）
+find output/ -mindepth 1 -maxdepth 1 -type d -name "????-??-??" -mtime +7 -exec rm -rf {} \;
+```
+
+**注意事项**
+- 此步骤在邮件发送成功后执行
+- 清理前无需用户确认，自动执行
+- 若目录不存在或为空，跳过对应的清理命令
 
 ---
 
