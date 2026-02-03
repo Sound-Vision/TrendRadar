@@ -163,21 +163,14 @@
 
 ### 步骤 8：推送话题清单
 
-- 使用 tools/email_sender/send_email.py 发送邮件
+- 使用 send-email skill 发送邮件
   - 目标邮箱：chenliang535649@163.com、nipuream@163.com
   - 主题：采用"日期+互联网行业热点话题"的结构，例如：20251231_互联网行业热点话题
   - 正文内容：采用步骤 7 生成的话题清单文件的内容
-  - 具体使用方法参考以下示例，更详细的用法参考 tools/email_sender/README.md
-```
-// 通过环境变量配置必要参数
-sh tools/email_sender/setup_env.sh
-
-// 调用命令发送邮件
-python3 tools/email_sender/send_email.py \
-  --to recipient1@example.com recipient2@example.com \
-  --subject "测试" \
-  --file "topics/20251223_tech_hot_topics.md"
-```
+  - 其他参数
+    - smtp server: smtp.163.com
+    - smtp port: 465
+    - 发送方: mrnobody212377@163.com
 
 ### 步骤 9：清理过期数据
 
