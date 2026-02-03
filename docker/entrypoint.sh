@@ -72,7 +72,7 @@ git_auto_push() {
 
 # 延迟执行话题分析脚本
 schedule_topic_analysis_with_cursor_cloud_agent() {
-    local script_path="/app/tools/run_topic_analysis.sh"
+    local script_path="/app/tools/run_topic_analysis_with_curosr_cloud_agent.sh"
     if [ ! -f "$script_path" ]; then
         echo "⚠️ 话题分析脚本不存在: $script_path"
         return 0

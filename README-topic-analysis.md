@@ -101,7 +101,7 @@
               │           │ (后台执行)                        │
               │           ▼                                   │
               │  ┌────────────────────────────────────────┐   │
-              │  │     run_topic_analysis.sh              │   │
+              │  │     run_topic_analysis_with_curosr_cloud_agent.sh              │   │
               │  │  ┌──────────────────────────────────┐  │   │
               │  │  │ 1. 创建 Cursor Cloud Agent       │  │   │
               │  │  │    POST /v0/agents              │  │   │
@@ -198,7 +198,7 @@ run_trendradar_with_hook() {
 
 ### 4. 话题分析
 
-话题分析通过 `tools/run_topic_analysis.sh` 脚本实现，使用 Cursor Cloud Agent API：
+话题分析通过 `tools/run_topic_analysis_with_curosr_cloud_agent.sh` 脚本实现，使用 Cursor Cloud Agent API：
 
 #### 工作流程
 
@@ -319,7 +319,7 @@ services:
 
 检查以下几点：
 1. `CURSOR_KEY` 环境变量是否正确设置
-2. `tools/run_topic_analysis.sh` 脚本是否存在
+2. `tools/run_topic_analysis_with_curosr_cloud_agent.sh` 脚本是否存在
 3. 查看容器日志确认是否有错误信息
 
 ### Q: Git 推送失败？
@@ -342,5 +342,5 @@ services:
 
 - `docker/entrypoint.sh` - 容器入口脚本
 - `docker/docker-compose.yml` - Docker Compose 配置
-- `tools/run_topic_analysis.sh` - 话题分析脚本
+- `tools/run_topic_analysis_with_curosr_cloud_agent.sh` - 话题分析脚本
 - `config/config.yaml` - 主配置文件
