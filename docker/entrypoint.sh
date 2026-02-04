@@ -87,11 +87,40 @@ schedule_topic_analysis_with_cursor_cloud_agent() {
     ) &
 }
 
+# 触发宿主机 Webhook
+trigger_host_webhook() {
+    if [ "${ENABLE_WEBHOOK:-false}" != "true" ]; then
+        return 0
+    fi
+
+    local webhook_url="${WEBHOOK_URL:-http://host.docker.internal:8765/webhook}"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+
+    echo "📡 正在触发宿主机 Webhook: $webhook_url"
+
+    # 发送 POST 请求到宿主机
+    if command -v curl >/dev/null 2>&1; then
+        curl -X POST "$webhook_url" \
+            -H "Content-Type: application/json" \
+            -d "{\"event\":\"trendradar_completed\",\"timestamp\":\"$timestamp\"}" \
+            --max-time 5 \
+            --silent \
+            --show-error || {
+            echo "⚠️ Webhook 调用失败（可能宿主机服务未启动）"
+            return 0
+        }
+        echo "✅ Webhook 触发成功"
+    else
+        echo "⚠️ curl 命令不可用，跳过 webhook"
+    fi
+}
+
 # 执行 trendradar 并在成功后进行 git 推送和话题分析
 run_trendradar_with_hook() {
     /usr/local/bin/python -m trendradar
     # git_auto_push
     # schedule_topic_analysis_with_cursor_cloud_agent
+    trigger_host_webhook
 }
 
 case "${RUN_MODE:-cron}" in

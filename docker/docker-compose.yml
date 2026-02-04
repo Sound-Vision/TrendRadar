@@ -71,6 +71,9 @@ services:
       - GIT_USER_NAME=${GIT_USER_NAME:-chenliang}
       - GIT_USER_EMAIL=${GIT_USER_EMAIL:-chenliang535649@163.com}
       - GIT_COMMIT_PREFIX=${GIT_COMMIT_PREFIX:-TrendRadar Update}
+      # Webhook 配置（触发宿主机 Claude 命令）
+      - ENABLE_WEBHOOK=${ENABLE_WEBHOOK:-false}
+      - WEBHOOK_URL=${WEBHOOK_URL:-http://host.docker.internal:8765/webhook}
 
   trendradar-mcp:
     image: wantcat/trendradar-mcp:latest
