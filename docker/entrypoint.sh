@@ -10,7 +10,7 @@ fi
 # 保存环境变量
 env >> /etc/environment
 
-# Git 自动提交推送函数
+# Git 自动提交推送函数（暂时没用）
 git_auto_push() {
     if [ "${GIT_AUTO_PUSH:-false}" != "true" ]; then
         return 0
@@ -70,7 +70,7 @@ git_auto_push() {
     fi
 }
 
-# 延迟执行话题分析脚本
+# 延迟执行话题分析脚本（暂时没用）
 schedule_topic_analysis_with_cursor_cloud_agent() {
     local script_path="/app/tools/run_topic_analysis_with_curosr_cloud_agent.sh"
     if [ ! -f "$script_path" ]; then
@@ -130,8 +130,30 @@ case "${RUN_MODE:-cron}" in
     run_trendradar_with_hook
     ;;
 "cron")
-    # 生成 crontab
-    echo "${CRON_SCHEDULE:-*/30 * * * *} cd /app && /usr/local/bin/python -m trendradar" > /tmp/crontab
+    # 创建定时任务执行脚本（包含 webhook 触发）
+    cat > /tmp/run_trendradar.sh << 'SCRIPT'
+#!/bin/bash
+source /etc/environment
+cd /app
+/usr/local/bin/python -m trendradar
+
+# 触发 Webhook
+if [ "${ENABLE_WEBHOOK:-false}" = "true" ]; then
+    webhook_url="${WEBHOOK_URL:-http://host.docker.internal:8765/webhook}"
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "📡 正在触发宿主机 Webhook: $webhook_url"
+    curl -X POST "$webhook_url" \
+        -H "Content-Type: application/json" \
+        -d "{\"event\":\"trendradar_completed\",\"timestamp\":\"$timestamp\"}" \
+        --max-time 5 \
+        --silent \
+        --show-error && echo "✅ Webhook 触发成功" || echo "⚠️ Webhook 调用失败"
+fi
+SCRIPT
+    chmod +x /tmp/run_trendradar.sh
+
+    # 生成 crontab（调用包含 webhook 的脚本）
+    echo "${CRON_SCHEDULE:-*/30 * * * *} /tmp/run_trendradar.sh" > /tmp/crontab
     
     echo "📅 生成的crontab内容:"
     cat /tmp/crontab
@@ -145,7 +167,8 @@ case "${RUN_MODE:-cron}" in
     if [ "${IMMEDIATE_RUN:-false}" = "true" ]; then
         echo "▶️ 立即执行一次"
         # /usr/local/bin/python -m trendradar
-        run_trendradar_with_hook
+        # run_trendradar_with_hook
+        /tmp/run_trendradar.sh
     fi
 
     # 启动 Web 服务器（如果配置了）
