@@ -163,7 +163,7 @@
 
 ### 步骤 8：推送话题清单
 
-- 使用 send-email skill 发送邮件
+- 必须使用 send-email skill 发送邮件
   - 目标邮箱：chenliang535649@163.com、nipuream@163.com
   - 主题：采用"日期+互联网行业热点话题"的结构，例如：20251231_互联网行业热点话题
   - 正文内容：采用步骤 7 生成的话题清单文件的内容
@@ -171,6 +171,8 @@
     - smtp server: smtp.163.com
     - smtp port: 465
     - 发送方: mrnobody212377@163.com
+    - 授权码: MJuDgf9aHxJFVJTF
+- 如果没找到 send-email skill，输出没找到的原因，然后直接执行下一个步骤
 
 ### 步骤 9：清理过期数据
 
