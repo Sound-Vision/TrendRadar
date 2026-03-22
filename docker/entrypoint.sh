@@ -87,7 +87,7 @@ schedule_topic_analysis_with_cursor_cloud_agent() {
     ) &
 }
 
-# 触发宿主机 Webhook
+# 触发宿主机 Webhook（默认不执行；用于触发本地 Claude Code 走分析流程）
 trigger_host_webhook() {
     if [ "${ENABLE_WEBHOOK:-false}" != "true" ]; then
         return 0
@@ -120,7 +120,7 @@ run_trendradar_with_hook() {
     /usr/local/bin/python -m trendradar
     # git_auto_push
     # schedule_topic_analysis_with_cursor_cloud_agent
-    trigger_host_webhook
+    # trigger_host_webhook
 }
 
 case "${RUN_MODE:-cron}" in
