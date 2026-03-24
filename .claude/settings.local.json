@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source:*)",
+      "Bash(python3:*)",
+      "Bash(ls:*)",
+      "WebSearch",
+      "mcp__trendradar__resolve_date_range",
+      "mcp__trendradar__get_latest_news",
+      "mcp__trendradar__get_trending_topics",
+      "mcp__trendradar__get_latest_rss",
+      "Bash(find:*)",
+      "Bash(date:*)",
+      "Bash(chmod:*)",
+      "mcp__trend-radar__generate_summary_report",
+      "mcp__trend-radar__get_trending_topics",
+      "mcp__trend-radar__aggregate_news",
+      "mcp__trend-radar__search_news",
+      "mcp__trend-radar__get_latest_rss",
+      "mcp__trend-radar__search_rss",
+      "mcp__trend-radar__get_news_by_date",
+      "mcp__trend-radar__analyze_topic_trend",
+      "Read(//Users/viva/.claude/skills/send-email/**)",
+      "Bash(pip3 install:*)"
+    ]
+  }
+}
