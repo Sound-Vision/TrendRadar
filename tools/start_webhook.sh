@@ -8,7 +8,7 @@ WEBHOOK_SERVER="$SCRIPT_DIR/webhook_server.py"
 PORT="${WEBHOOK_PORT:-8765}"
 # 收到 webhook 后要执行的完整命令（可以是 claude、gemini 或任意命令）
 # AGENT_COMMAND="${AGENT_COMMAND:-claude -p --dangerously-skip-permissions /collect_tech_topic}"
-AGENT_COMMAND="${AGENT_COMMAND:-gemini -p --dangerously-skip-permissions /collect_tech_topic}"
+AGENT_COMMAND="${AGENT_COMMAND:-gemini -p /collect_tech_topic}"
 
 # 检查 Python
 if ! command -v python3 &> /dev/null; then
