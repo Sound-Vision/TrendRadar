@@ -21,7 +21,10 @@
       "mcp__trend-radar__get_news_by_date",
       "mcp__trend-radar__analyze_topic_trend",
       "Read(//Users/viva/.claude/skills/send-email/**)",
-      "Bash(pip3 install:*)"
+      "Bash(pip3 install:*)",
+      "mcp__trend-radar__analyze_data_insights",
+      "mcp__trend-radar__compare_periods",
+      "mcp__trend-radar__analyze_sentiment"
     ]
   }
 }

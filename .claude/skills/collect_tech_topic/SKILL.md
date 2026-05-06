@@ -166,7 +166,6 @@ description: 从多平台收集当前互联网/科技行业热点话题，输出
     - smtp server: smtp.163.com
     - smtp port: 465
     - 发送方: mrnobody212377@163.com
-    - 授权码: MJuDgf9aHxJFVJTF
 - 如果没找到 send-email skill，输出没找到的原因，然后直接执行下一个步骤
 
 ### 步骤 9：清理过期数据
